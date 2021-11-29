@@ -1,11 +1,11 @@
 import Modal from "react-modal";
+import {FormEvent, useState} from "react";
 
 import {Container, TipoTransacaoContainer, RadioBox} from './style';
 import fecharImg from '../../assets/imgs/fechar.svg';
 import entradaImg from '../../assets/imgs/entradas.svg';
 import saidaImg from '../../assets/imgs/saidas.svg';
-import {FormEvent, useState} from "react";
-import {api} from "../../services/api";
+import {useTransacoes} from "../../hooks/TransacaoContext";
 
 interface novaTransacaoModalProps {
     seAberto: boolean,
@@ -16,23 +16,29 @@ interface novaTransacaoModalProps {
 
 export function NovaTransacaoModal({seAberto, onRequestFechar}: novaTransacaoModalProps) {
 
+    const {criarTransacao} = useTransacoes();
+
     const [titulo, setTitulo] = useState('');
     const [valor, setValor] = useState(0);
     const [categoria, setCategoria] = useState('');
 
     const [tipo, setTipo] = useState('deposito');
 
-    function handleCriarNovaTransacao (event: FormEvent) {
+    async function handleCriarNovaTransacao (event: FormEvent) {
         event.preventDefault();
 
-        const data = {
+        await criarTransacao({
             titulo,
             valor,
             categoria,
             tipo
-        }
+        })
 
-        api.post('transacoes', data)
+        setTitulo('');
+        setValor(0);
+        setCategoria('');
+        setTipo('deposito');
+        onRequestFechar();
     }
 
     return (

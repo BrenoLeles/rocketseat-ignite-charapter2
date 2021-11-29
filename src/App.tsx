@@ -1,11 +1,11 @@
+import {useState} from "react";
+
+import {NovaTransacaoModal} from "./components/NovaTransacaoModal";
 import { GlobalStyle } from "./styles/global";
 import {Dashboard} from "./components/Dashboard";
 import {Header} from "./components/Header";
-import {useState} from "react";
-import {NovaTransacaoModal} from "./components/NovaTransacaoModal";
-import Modal from "react-modal";
+import {TransacaoProvider} from './hooks/TransacaoContext';
 
-// Modal.setAppElement('root');
 
 export function App() {
 
@@ -18,7 +18,7 @@ export function App() {
         setSeNovaTrancacaoModalAberto(false);
     }
   return (
-    <>
+    <TransacaoProvider>
         <Header onAbrirNovaTransacaoModal={handleAbrirNovaTransacaoModal}/>
         <Dashboard />
         <GlobalStyle />
@@ -26,7 +26,7 @@ export function App() {
             seAberto={seNovaTransacaoModalAberto}
             onRequestFechar={handleFecharNovaTransacaoModal}
         />
-    </>
+    </TransacaoProvider>
   );
 }
 

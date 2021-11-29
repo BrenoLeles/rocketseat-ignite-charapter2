@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import {App} from './App';
 import {createServer, Model} from 'miragejs';
 
+import Modal from "react-modal";
+
+Modal.setAppElement('#root')
 createServer({
     models: {
         transacoes: Model
@@ -38,8 +41,7 @@ createServer({
 
        this.post('/transacoes', (schema, request) => {
            const data = JSON.parse(request.requestBody);
-           schema.create('transacoes', data)
-           return data;
+           return schema.create('transacoes', data);
        })
    }
 });
